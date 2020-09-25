@@ -1,0 +1,22 @@
+.button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 0;
+  background-color: transparent;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  outline: none;
+}
+
+@media screen and (min-width: 768px) {
+  .button {
+    cursor: pointer;
+    transition: .3s;
+  }
+
+  .button:not([disabled]):hover {
+    opacity: .6;
+  }
+}

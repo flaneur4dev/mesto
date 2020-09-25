@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Интерактивное приложение для путешествий">
+	  <meta name="keywords" content="Россия, путешествия, Алтай, Байкал, Карелия, Домбай, Эльбрус">
+	  <meta name="author" content="Алексей Басманов">
+    <link rel="stylesheet" href="./pages/index.css">
+    <title>Mesto</title>
+  </head>
+  <body class="page">
+    <header class="header page__section">
+      <a href="#"><img src="./images/header/Logo_vector.svg" alt="Логотип" class="header__logo"></a>
+    </header>
+
+    <main class="page__section">
+      <section class="profile">
+        <div class="profile__image"></div>
+        <div class="profile__wrapper">
+          <h1 class="profile__title">Жак-Ив Кусто</h1>
+          <button class="button button_type_edit-button"></button>
+          <p class="profile__subtitle">Исследователь океана</p>
+        </div>
+        <button class="button button_type_add-button"></button>
+      </section>
+
+      <section class="elements">
+        <article class="element">
+          <img src="./images/elements/castle.jpg" alt="Древний замок" class="element__image">
+          <div class="element__wrapper">
+            <h2 class="element__title">Карачаевск</h2>
+            <button class="button button_type_like-button"></button>
+          </div>
+        </article>
+
+        <article class="element">
+          <img src="./images/elements/mountain.jpg" alt="Горы" class="element__image">
+          <div class="element__wrapper">
+            <h2 class="element__title">Домбай</h2>
+            <button class="button button_type_like-button"></button>
+          </div>
+        </article>
+
+        <article class="element">
+          <img src="./images/elements/sunset.jpg" alt="Закат" class="element__image">
+          <div class="element__wrapper">
+            <h2 class="element__title">Гора Эльбрус</h2>
+            <button class="button button_type_like-button"></button>
+          </div>
+        </article>
+
+        <article class="element">
+          <img src="./images/elements/mountain.jpg" alt="Горы" class="element__image">
+          <div class="element__wrapper">
+            <h2 class="element__title">Домбай</h2>
+            <button class="button button_type_like-button"></button>
+          </div>
+        </article>
+
+        <article class="element">
+          <img src="./images/elements/sunset.jpg" alt="Закат" class="element__image">
+          <div class="element__wrapper">
+            <h2 class="element__title">Гора Эльбрус</h2>
+            <button class="button button_type_like-button"></button>
+          </div>
+        </article>
+
+        <article class="element">
+          <img src="./images/elements/castle.jpg" alt="Древний замок" class="element__image">
+          <div class="element__wrapper">
+            <h2 class="element__title">Карачаево-Черкессия</h2>
+            <button class="button button_type_like-button"></button>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer page__section">
+      <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
+    </footer>
+
+    <section class="popup">
+      <form class="popup__container">
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <fieldset class="popup__wrapper">
+          <input type="text" class="popup__input" id="name" placeholder="Имя" required>
+          <input type="text" class="popup__input" id="job" placeholder="О себе" required>
+        </fieldset>
+        <button class="button button_type_submit-button">Сохранить</button>
+        <button class="button button_type_close-button"></button>
+      </form>
+    </section>
+
+    <script src="index.js"></script>
+  </body>
+</html>

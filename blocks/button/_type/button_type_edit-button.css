@@ -1,0 +1,6 @@
+.button_type_edit-button {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #fff;
+  background-image: url(../../../images/button/edit_button.svg);
+}
