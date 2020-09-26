@@ -10,9 +10,14 @@
   line-height: 1.2;
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 790px) {
   .profile__subtitle {
     max-width: 260px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .profile__subtitle {
     margin-bottom: 36px;
     text-align: center;
   }

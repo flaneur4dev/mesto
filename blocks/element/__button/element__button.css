@@ -1,4 +1,4 @@
-.button {
+.element__button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -8,15 +8,16 @@
   background-repeat: no-repeat;
   border: none;
   outline: none;
+  min-width: 20px;
+  height: 18px;
+  background-image: url(../../../images/elements/like_button.svg);
+  background-size: contain;
 }
 
 @media screen and (min-width: 768px) {
-  .button {
+  .element__button:hover {
+    opacity: .6;
     cursor: pointer;
     transition: .3s;
-  }
-
-  .button:not([disabled]):hover {
-    opacity: .6;
   }
 }
