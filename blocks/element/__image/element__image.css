@@ -17,6 +17,12 @@
   }
 }
 
+@media screen and (min-width: 768px) {
+  .element__image {
+    cursor: pointer;
+  }
+}
+
 @media screen and (min-width: 1000px) {
   .element__image {
     max-height: 282px;

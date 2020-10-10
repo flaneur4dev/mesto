@@ -10,15 +10,15 @@
   outline: none;
 }
 
+.popup__button[disabled] {
+  opacity: .5;
+  cursor: default;
+}
+
 @media screen and (min-width: 768px) {
   .popup__button {
     cursor: pointer;
     transition: .3s;
-  }
-
-  .popup__button[disabled] {
-    opacity: .5;
-    cursor: default;
   }
 
   .popup__button:not([disabled]):hover {

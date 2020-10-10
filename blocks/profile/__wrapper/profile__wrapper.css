@@ -4,7 +4,7 @@
   grid-template-columns: max-content auto;
   grid-template-rows: repeat(2, auto);
   gap: 10px 17px;
-  align-items: baseline;
+  align-items: center;
 }
 
 @media screen and (max-width: 790px) {

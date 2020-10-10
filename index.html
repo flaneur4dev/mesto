@@ -19,60 +19,14 @@
         <img src="./images/profile/avatar.jpg" class="profile__image" alt="Аватар">
         <div class="profile__wrapper">
           <h1 class="profile__title">Жак-Ив Кусто</h1>
-          <button class="profile__button profile__button_type_edit-button" type="button"></button>
+          <button class="profile__button profile__button_type_edit-button" type="button" name="edit-button"></button>
           <p class="profile__subtitle">Исследователь океана</p>
         </div>
-        <button class="profile__button profile__button_type_add-button" type="button"></button>
+        <button class="profile__button profile__button_type_add-button" type="button" name="add-button"></button>
       </section>
 
       <section class="elements">
-        <article class="element">
-          <img src="./images/elements/castle.jpg" alt="Древний замок" class="element__image">
-          <div class="element__wrapper">
-            <h2 class="element__title">Карачаевск</h2>
-            <button class="element__button" type="button"></button>
-          </div>
-        </article>
-
-        <article class="element">
-          <img src="./images/elements/mountain.jpg" alt="Горы" class="element__image">
-          <div class="element__wrapper">
-            <h2 class="element__title">Домбай</h2>
-            <button class="element__button" type="button"></button>
-          </div>
-        </article>
-
-        <article class="element">
-          <img src="./images/elements/sunset.jpg" alt="Закат" class="element__image">
-          <div class="element__wrapper">
-            <h2 class="element__title">Гора Эльбрус</h2>
-            <button class="element__button" type="button"></button>
-          </div>
-        </article>
-
-        <article class="element">
-          <img src="./images/elements/mountain.jpg" alt="Горы" class="element__image">
-          <div class="element__wrapper">
-            <h2 class="element__title">Домбай</h2>
-            <button class="element__button" type="button"></button>
-          </div>
-        </article>
-
-        <article class="element">
-          <img src="./images/elements/sunset.jpg" alt="Закат" class="element__image">
-          <div class="element__wrapper">
-            <h2 class="element__title">Гора Эльбрус</h2>
-            <button class="element__button" type="button"></button>
-          </div>
-        </article>
-
-        <article class="element">
-          <img src="./images/elements/castle.jpg" alt="Древний замок" class="element__image">
-          <div class="element__wrapper">
-            <h2 class="element__title">Карачаево-Черкессия</h2>
-            <button class="element__button" type="button"></button>
-          </div>
-        </article>
+       <!-- карточки -->
       </section>
     </main>
 
@@ -80,17 +34,48 @@
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
 
-    <section class="popup">
-      <form class="popup__container" name="form">
+    <section id="edit-popup" class="popup">
+      <form class="popup__container" name="edit-form">
         <h2 class="popup__title">Редактировать профиль</h2>
         <fieldset class="popup__wrapper">
-          <input type="text" class="popup__input" id="name" name="person" placeholder="Имя" required>
-          <input type="text" class="popup__input" id="job" name="description" placeholder="О себе" required>
+          <input type="text" class="popup__input" id="person" name="person" placeholder="Имя">
+          <input type="text" class="popup__input" id="job" name="description" placeholder="О себе">
         </fieldset>
-        <button class="popup__button popup__button_type_submit-button" type="submit">Сохранить</button>
-        <button class="popup__button popup__button_type_close-button" type="button"></button>
+        <button class="popup__button popup__button_type_submit-button" type="submit" name="save-buttom">Сохранить</button>
+        <button class="popup__button popup__button_type_close-button" type="button" name="close-button"></button>
       </form>
     </section>
+
+    <section id="add-popup" class="popup">
+      <form class="popup__container popup__container_type_add" name="add-form">
+        <h2 class="popup__title popup__title_type_add">Новое место</h2>
+        <fieldset class="popup__wrapper popup__wrapper_type_add">
+          <input type="text" class="popup__input" id="place" name="place" placeholder="Название">
+          <input type="text" class="popup__input" id="link" name="link" placeholder="Ссылка на картинку">
+        </fieldset>
+        <button class="popup__button popup__button_type_submit-button" type="submit" name="create-button">Создать</button>
+        <button class="popup__button popup__button_type_image-button" type="button" name="close-button"></button>
+      </form>
+    </section>
+
+    <section id="image-popup" class="popup">
+      <figure class="popup__container popup__container_type_image">
+        <img src="" alt="" class="popup__image">
+        <figcaption class="popup__caption"></figcaption>
+        <button class="popup__button popup__button_type_image-button" type="button" name="close-button"></button>
+      </figure>
+    </section>
+
+    <template id="card-template">
+      <article class="element">
+        <img src="" alt="" class="element__image" name="image-button">
+        <div class="element__wrapper">
+          <h2 class="element__title"></h2>
+          <button class="element__button element__button_type_like-button" type="button"></button>
+        </div>
+        <button class="element__button element__button_type_trash-button" type="button"></button>
+      </article>
+    </template>
 
     <script src="./scripts/index.js"></script>
   </body>

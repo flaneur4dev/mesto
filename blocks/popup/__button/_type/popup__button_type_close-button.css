@@ -6,7 +6,7 @@
   right: -35px;
   background-image: url(../../../../images/popup/close_button.svg);
   transform: rotate(45deg);
-  /* background-size: contain; */
+  background-size: contain;
 }
 
 @media screen and (max-width: 520px) {
