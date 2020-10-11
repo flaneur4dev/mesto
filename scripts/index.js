@@ -1,3 +1,17 @@
+/* ВАЖНО!!! Комментарии к проектной работе (пишу здесь, к сожалению, друго способа нет)
+
+1. Форматирование. Файл изначально был нормально отформатирован.
+При проверке файла не пользуйтесь практикумным редактором, он "ломает" код и его невозможно читать.
+Пользуйтесь полноценными редакторами кода или смотрите работу на Github. Там все корректно.
+
+2. setTimeout(). Я не использую эту функцию для анимации попапов (для анимации только CSS).
+Я использую ее для управления положением попапов в потоке страницы. Мне нужно чтобы после закрытия
+браузер перестал рендерить данные элементы (display: none), а не просто скрывал их видимость
+(opacity: 0; visibiliyi: hidden).
+Так как замечания по setTimeout() были с пометкой "Можно лучше", то есть необязательны к исправлению
+для принятия проектной работы, я их оставил. Остальное поправил. Спасибо.*/
+
+
 /*** Переменные ***/
 
 const initialCards = [
@@ -8,7 +22,14 @@ const initialCards = [
   {name: 'Холмогорский район', link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'},
   {name: 'Байкал', link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'}
 ];
+const addPopup = document.querySelector('#add-popup');
+const editPopup = document.querySelector('#edit-popup');
+const imagePopup = document.querySelector('#image-popup');
+const createButton = document.querySelector('.popup__button[name="create-button"]');
+const popupImage = document.querySelector('.popup__image');
+const popupTitle = document.querySelector('.popup__caption');
 const cardTemplate = document.querySelector('#card-template').content;
+const cardGroup = document.querySelector('.elements');
 
 /*** Функции ***/
 
@@ -19,11 +40,11 @@ function getValue(formName, inputName) {
 
 //перезапись значений из(в) полей(я) ввода
 function exchangeContent(type, ...selectors) {
-	return {
+  return {
     text: () => document.querySelector(selectors[0]).textContent = document.querySelector(selectors[1]).value,
-		value: () => document.querySelector(selectors[0]).value = document.querySelector(selectors[1]).textContent,
+    value: () => document.querySelector(selectors[0]).value = document.querySelector(selectors[1]).textContent,
     empty: () => document.querySelector(selectors[0]).value = ''
-	}[type]()
+  }[type]()
 }
 
 // открытие(закрытие) модальных окон
@@ -32,19 +53,19 @@ function popupToggle(event) {
     'add-button': () => {
                       exchangeContent('empty', '#place');
                       exchangeContent('empty', '#link');
-                      document.querySelector('.popup__button[name="create-button"]').setAttribute('disabled', true);
-                      document.querySelector('#add-popup').classList.toggle('popup_opened')
+                      createButton.setAttribute('disabled', true);
+                      addPopup.classList.toggle('popup_opened')
                     },
     'edit-button': () => {
                       exchangeContent('value', '#person', '.profile__title');
                       exchangeContent('value', '#job', '.profile__subtitle');
-                      document.querySelector('#edit-popup').classList.toggle('popup_opened')
+                      editPopup.classList.toggle('popup_opened')
                     },
     'image-button': () => {
-                      document.querySelector('.popup__image').src = event.target.src;
-                      document.querySelector('.popup__image').alt = event.target.alt;
-                      document.querySelector('.popup__caption').textContent = event.target.parentElement.querySelector('.element__title').textContent;
-                      document.querySelector('#image-popup').classList.toggle('popup_opened')
+                      popupImage.src = event.target.src;
+                      popupImage.alt = event.target.alt;
+                      popupTitle.textContent = event.target.parentElement.querySelector('.element__title').textContent;
+                      imagePopup.classList.toggle('popup_opened')
                     },
     'close-button': () => {
                       if (event.target.previousElementSibling.hasAttribute('disabled')) event.target.previousElementSibling.removeAttribute('disabled');
@@ -76,7 +97,7 @@ function checkInput(event) {
     'edit-form': () => setSubmitButton('edit-form', 'person', 'description'),
     'add-form': () => {
                       setSubmitButton('add-form', 'place', 'link');
-                      if (!getValue('add-form', 'link').includes('https://')) document.querySelector('.popup__button[name="create-button"]').setAttribute('disabled', true);
+                      if (!getValue('add-form', 'link').includes('https://')) createButton.setAttribute('disabled', true);
                     }
   }[event.target.closest('.popup__container').name]()
 }
@@ -91,10 +112,10 @@ function addCard(name, link) {
 
   cardElement.querySelector('.element__button_type_like-button').onclick = event => event.target.classList.toggle('element__button_type_black-like');
   cardElement.querySelector('.element__button_type_trash-button').onclick = event => event.target.parentElement.remove();
-  cardElement.querySelector('.element__image').onmousedown = () => document.querySelector('#image-popup').style.display = 'flex';
+  cardElement.querySelector('.element__image').onmousedown = () => imagePopup.style.display = 'flex';
   cardElement.querySelector('.element__image').onclick = popupToggle;
   
-  document.querySelector('.elements').prepend(cardElement)
+  cardGroup.prepend(cardElement)
 }
 
 // отправка форм
@@ -127,8 +148,8 @@ document.querySelector('.popup__button_type_close-button').onclick = popupToggle
 document.querySelectorAll('.popup__button_type_image-button').forEach(item => item.onclick = popupToggle);
 
 // событие 'mousedown' введено для реализации плавности события 'click'
-document.querySelector('.profile__button_type_edit-button').onmousedown = () => document.querySelector('#edit-popup').style.display = 'flex';
-document.querySelector('.profile__button_type_add-button').onmousedown = () => document.querySelector('#add-popup').style.display = 'flex';
+document.querySelector('.profile__button_type_edit-button').onmousedown = () => editPopup.style.display = 'flex';
+document.querySelector('.profile__button_type_add-button').onmousedown = () => addPopup.style.display = 'flex';
 
 // обработчики форм
 document.body.oninput = checkInput;
