@@ -6,12 +6,16 @@
   background-color: transparent;
   background-position: center;
   background-repeat: no-repeat;
+  border-radius: 2px;
   border: none;
   outline: none;
 }
 
 .popup__button[disabled] {
-  opacity: .5;
+  color: #000;
+  background-color: transparent;
+  border: 1px solid #000;
+  opacity: .2;
   cursor: default;
 }
 

@@ -18,11 +18,11 @@
       <section class="profile">
         <img src="./images/profile/avatar.jpg" class="profile__image" alt="Аватар">
         <div class="profile__wrapper">
-          <h1 class="profile__title">Жак-Ив Кусто</h1>
-          <button class="profile__button profile__button_type_edit-button" type="button" name="edit-button"></button>
-          <p class="profile__subtitle">Исследователь океана</p>
+          <h1 class="profile__title" data-title>Жак-Ив Кусто</h1>
+          <button class="profile__button profile__button_type_edit-button" type="button" name="edit-button" data-event="mousedown-click"></button>
+          <p class="profile__subtitle" data-title>Исследователь океана</p>
         </div>
-        <button class="profile__button profile__button_type_add-button" type="button" name="add-button"></button>
+        <button class="profile__button profile__button_type_add-button" type="button" name="add-button" data-event="mousedown-click"></button>
       </section>
 
       <section class="elements">
@@ -35,26 +35,30 @@
     </footer>
 
     <section id="edit-popup" class="popup">
-      <form class="popup__container" name="edit-form">
+      <form class="popup__container" name="edit-form" novalidate>
         <h2 class="popup__title">Редактировать профиль</h2>
         <fieldset class="popup__wrapper">
-          <input type="text" class="popup__input" id="person" name="person" placeholder="Имя">
-          <input type="text" class="popup__input" id="job" name="description" placeholder="О себе">
+          <input type="text" class="popup__input" id="person" name="person" placeholder="Имя" minlength="2" maxlength="40" required>
+          <span class="popup__input-error"></span>
+          <input type="text" class="popup__input" id="job" name="description" placeholder="О себе" minlength="2" maxlength="200" required>
+          <span class="popup__input-error"></span>
         </fieldset>
-        <button class="popup__button popup__button_type_submit-button" type="submit" name="save-buttom">Сохранить</button>
-        <button class="popup__button popup__button_type_close-button" type="button" name="close-button"></button>
+        <button class="popup__button popup__button_type_submit-button" type="submit" name="save-button">Сохранить</button>
+        <button class="popup__button popup__button_type_close-button" type="button" name="close-button" data-event="click"></button>
       </form>
     </section>
 
     <section id="add-popup" class="popup">
-      <form class="popup__container popup__container_type_add" name="add-form">
+      <form class="popup__container popup__container_type_add" name="add-form" novalidate>
         <h2 class="popup__title popup__title_type_add">Новое место</h2>
         <fieldset class="popup__wrapper popup__wrapper_type_add">
-          <input type="text" class="popup__input" id="place" name="place" placeholder="Название">
-          <input type="text" class="popup__input" id="link" name="link" placeholder="Ссылка на картинку">
+          <input type="text" class="popup__input" id="place" name="place" placeholder="Название" minlength="2" maxlength="30" required>
+          <span class="popup__input-error"></span>
+          <input type="url" class="popup__input" id="link" name="link" placeholder="Ссылка на картинку" required>
+          <span class="popup__input-error"></span>
         </fieldset>
         <button class="popup__button popup__button_type_submit-button" type="submit" name="create-button">Создать</button>
-        <button class="popup__button popup__button_type_image-button" type="button" name="close-button"></button>
+        <button class="popup__button popup__button_type_image-button" type="button" name="close-button" data-event="click"></button>
       </form>
     </section>
 
@@ -62,7 +66,7 @@
       <figure class="popup__container popup__container_type_image">
         <img src="" alt="" class="popup__image">
         <figcaption class="popup__caption"></figcaption>
-        <button class="popup__button popup__button_type_image-button" type="button" name="close-button"></button>
+        <button class="popup__button popup__button_type_image-button" type="button" name="close-button" data-event="click"></button>
       </figure>
     </section>
 
@@ -70,13 +74,14 @@
       <article class="element">
         <img src="" alt="" class="element__image" name="image-button">
         <div class="element__wrapper">
-          <h2 class="element__title"></h2>
-          <button class="element__button element__button_type_like-button" type="button"></button>
+          <h2 class="element__title" data-title></h2>
+          <button class="element__button element__button_type_like-button" type="button" name="like-button"></button>
         </div>
-        <button class="element__button element__button_type_trash-button" type="button"></button>
+        <button class="element__button element__button_type_trash-button" type="button" name="trash-button"></button>
       </article>
     </template>
 
     <script src="./scripts/index.js"></script>
+    <script src="./scripts/validation.js"></script>
   </body>
 </html>

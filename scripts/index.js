@@ -1,15 +1,6 @@
-/* ВАЖНО!!! Комментарии к проектной работе (пишу здесь, к сожалению, друго способа нет)
-
-1. Форматирование. Файл изначально был нормально отформатирован.
+/* ВАЖНО!!! 
 При проверке файла не пользуйтесь практикумным редактором, он "ломает" код и его невозможно читать.
-Пользуйтесь полноценными редакторами кода или смотрите работу на Github. Там все корректно.
-
-2. setTimeout(). Я не использую эту функцию для анимации попапов (для анимации только CSS).
-Я использую ее для управления положением попапов в потоке страницы. Мне нужно чтобы после закрытия
-браузер перестал рендерить данные элементы (display: none), а не просто скрывал их видимость
-(opacity: 0; visibiliyi: hidden).
-Так как замечания по setTimeout() были с пометкой "Можно лучше", то есть необязательны к исправлению
-для принятия проектной работы, я их оставил. Остальное поправил. Спасибо.*/
+Пользуйтесь полноценными редакторами кода или смотрите работу на Github. Там все корректно.*/
 
 
 /*** Переменные ***/
@@ -25,81 +16,65 @@ const initialCards = [
 const addPopup = document.querySelector('#add-popup');
 const editPopup = document.querySelector('#edit-popup');
 const imagePopup = document.querySelector('#image-popup');
-const createButton = document.querySelector('.popup__button[name="create-button"]');
+const createButton = document.querySelector('[name="create-button"]');
+const saveButton = document.querySelector('[name="save-button"]');
 const popupImage = document.querySelector('.popup__image');
 const popupTitle = document.querySelector('.popup__caption');
 const cardTemplate = document.querySelector('#card-template').content;
 const cardGroup = document.querySelector('.elements');
 
+// всплывающие подсказки
+const tip = document.createElement('span');
+tip.style.cssText = `
+  display: none;
+  position: absolute;
+  padding: 5px;
+  color: #fff;
+  background-color: #252525;
+  border-radius: 2px;
+  font-size: 12px;
+`;
+document.body.lastElementChild.before(tip);
+
 /*** Функции ***/
 
-// получение значения поля ввода
 function getValue(formName, inputName) {
   return document.forms[formName].elements[inputName].value
 }
 
-//перезапись значений из(в) полей(я) ввода
 function exchangeContent(type, ...selectors) {
-  return {
-    text: () => document.querySelector(selectors[0]).textContent = document.querySelector(selectors[1]).value,
-    value: () => document.querySelector(selectors[0]).value = document.querySelector(selectors[1]).textContent,
-    empty: () => document.querySelector(selectors[0]).value = ''
-  }[type]()
-}
-
-// открытие(закрытие) модальных окон
-function popupToggle(event) {
-  return {
-    'add-button': () => {
-                      exchangeContent('empty', '#place');
-                      exchangeContent('empty', '#link');
-                      createButton.setAttribute('disabled', true);
-                      addPopup.classList.toggle('popup_opened')
-                    },
-    'edit-button': () => {
-                      exchangeContent('value', '#person', '.profile__title');
-                      exchangeContent('value', '#job', '.profile__subtitle');
-                      editPopup.classList.toggle('popup_opened')
-                    },
-    'image-button': () => {
-                      popupImage.src = event.target.src;
-                      popupImage.alt = event.target.alt;
-                      popupTitle.textContent = event.target.parentElement.querySelector('.element__title').textContent;
-                      imagePopup.classList.toggle('popup_opened')
-                    },
-    'close-button': () => {
-                      if (event.target.previousElementSibling.hasAttribute('disabled')) event.target.previousElementSibling.removeAttribute('disabled');
-                      event.target.closest('.popup').classList.toggle('popup_opened');
-                      setTimeout(() => {event.target.closest('.popup').style.display = 'none'}, 700)
-                    }
-  }[event.target.name]()
-}
-
-// проверка наличия одних пробелов при вводе или пустой строки
-function hasVoid(value) {
-  let calc = 0;
-  for (let ch of value) {
-    if (ch == ' ') calc ++;
+  switch(type) {
+    case 'text':
+      document.querySelector(selectors[0]).textContent = document.querySelector(selectors[1]).value;
+      break;
+    case 'value':
+      document.querySelector(selectors[0]).value = document.querySelector(selectors[1]).textContent;
+      break;
+    case 'empty':
+      document.querySelector(selectors[0]).value = '';
+      break;
   }
-  return (value.length == calc || !value.length) ? true : false;
 }
 
-// задание поведения кнопки отправки формы, исходя из проверки hasVoid()
-function setSubmitButton(form, ...inputs) {
-  (hasVoid(getValue(form, inputs[0])) || hasVoid(getValue(form, inputs[1])))
-                    ? event.target.closest('.popup__wrapper').nextElementSibling.setAttribute('disabled', true)
-                    : event.target.closest('.popup__wrapper').nextElementSibling.removeAttribute('disabled');
+// закрытие
+function smoothClose() {
+  let evt = event;
+  document.onkeydown = '';
+  document.querySelectorAll('.popup__input-error').forEach(item => item.textContent = '');
+	event.target.closest('.popup').classList.toggle('popup_opened');
+	setTimeout(() => {evt.target.closest('.popup').style.display = 'none'}, 700);
 }
 
-// устанавка setSubmitButton() для каждой формы
-function checkInput(event) {
-  return {
-    'edit-form': () => setSubmitButton('edit-form', 'person', 'description'),
-    'add-form': () => {
-                      setSubmitButton('add-form', 'place', 'link');
-                      if (!getValue('add-form', 'link').includes('https://')) createButton.setAttribute('disabled', true);
-                    }
-  }[event.target.closest('.popup__container').name]()
+function escapeClose() {
+  if (event.key == 'Escape') {
+    const currentPopup = document.querySelector('.popup_opened');
+    if (currentPopup) {
+      document.onkeydown = '';
+      document.querySelectorAll('.popup__input-error').forEach(item => item.textContent = '');
+      currentPopup.classList.toggle('popup_opened');
+      setTimeout(() => {currentPopup.style.display = 'none'}, 700);
+    }
+  }
 }
 
 // добавление карточек
@@ -109,48 +84,113 @@ function addCard(name, link) {
   cardElement.querySelector('.element__title').textContent = name;
   cardElement.querySelector('.element__image').alt = name;
   cardElement.querySelector('.element__image').src = link;
-
-  cardElement.querySelector('.element__button_type_like-button').onclick = event => event.target.classList.toggle('element__button_type_black-like');
-  cardElement.querySelector('.element__button_type_trash-button').onclick = event => event.target.parentElement.remove();
-  cardElement.querySelector('.element__image').onmousedown = () => imagePopup.style.display = 'flex';
-  cardElement.querySelector('.element__image').onclick = popupToggle;
   
   cardGroup.prepend(cardElement)
 }
 
-// отправка форм
-function formSubmit(event) {
-  return {
-    'save-buttom': () => {
-                        event.preventDefault();
-                        exchangeContent('text', '.profile__title', '#person');
-                        exchangeContent('text', '.profile__subtitle', '#job');                      
-                        event.target.closest('.popup').classList.toggle('popup_opened');
-                        setTimeout(() => {event.target.closest('.popup').style.display = 'none'}, 700);
-                      },
-    'create-button': () => {
-                        event.preventDefault();
-                        addCard(getValue('add-form', 'place'), getValue('add-form', 'link'))
-                        event.target.closest('.popup').classList.toggle('popup_opened');
-                        setTimeout(() => {event.target.closest('.popup').style.display = 'none'}, 700);
-                      }
-  }[event.submitter.name]()
+initialCards.forEach(item => addCard(item.name, item.link));
+
+/*** Функции-обработчики ***/
+
+// события карточек
+function cardEvents(event) {
+  switch(event.target.name) {
+    case 'image-button':
+      document.onkeydown = escapeClose;
+      popupImage.src = event.target.src;
+      popupImage.alt = event.target.alt;
+      popupTitle.textContent = event.target.parentElement.querySelector('.element__title').textContent;
+      imagePopup.classList.toggle('popup_opened');
+      break;
+    case 'like-button':
+      event.target.classList.toggle('element__button_type_black-like');
+      break;
+    case 'trash-button':
+      event.target.parentElement.remove();
+      break;
+  }
 }
 
-/*** Обработчики ***/
+/*** Объекты-обработчики ***/
 
-document.body.onload = () => initialCards.forEach(item => addCard(item.name, item.link)); // загрузка первых карточек
+// открытие(закрытие) модальных окон
+const popupEvents = {
+  handleEvent(event) {
+    document.onkeydown = escapeClose;
+    this[event.target.name](event);
+  },
+  'add-button'() {
+    exchangeContent('empty', '#place');
+    exchangeContent('empty', '#link');
+    createButton.disabled = true;
+    addPopup.classList.toggle('popup_opened')
+  },
+  'edit-button'() {
+    exchangeContent('value', '#person', '.profile__title');
+    exchangeContent('value', '#job', '.profile__subtitle');
+    saveButton.disabled = ''
+    editPopup.classList.toggle('popup_opened')
+  },
+  'close-button'() {smoothClose()}
+}
 
-// обработчики модальных окон
-document.querySelector('.profile__button_type_edit-button').onclick = popupToggle;
-document.querySelector('.profile__button_type_add-button').onclick = popupToggle;
-document.querySelector('.popup__button_type_close-button').onclick = popupToggle;
-document.querySelectorAll('.popup__button_type_image-button').forEach(item => item.onclick = popupToggle);
+const onMousedown = {
+  handleEvent(event) {
+    this[event.target.name](event);
+  },
+  'add-button'() {addPopup.style.display = 'flex'},
+  'edit-button'() {editPopup.style.display = 'flex'},
+}
 
-// событие 'mousedown' введено для реализации плавности события 'click'
-document.querySelector('.profile__button_type_edit-button').onmousedown = () => editPopup.style.display = 'flex';
-document.querySelector('.profile__button_type_add-button').onmousedown = () => addPopup.style.display = 'flex';
+// отправка форм
+const formSubmit = {
+	handleEvent(event) {
+    event.preventDefault();
+    this[event.submitter.name](event);
+    smoothClose()
+  },
+	'save-button'() {
+    exchangeContent('text', '.profile__title', '#person');
+    exchangeContent('text', '.profile__subtitle', '#job');                      
+  },
+	'create-button'() {
+    addCard(getValue('add-form', 'place'), getValue('add-form', 'link'))
+  }
+}
 
-// обработчики форм
-document.body.oninput = checkInput;
-document.body.onsubmit = formSubmit;
+// обработка всплывающих подсказок
+const forTips = {
+	handleEvent(event) {
+		this[event.type](event);
+	},
+	mousemove() {
+		if (event.target.scrollWidth > event.target.clientWidth) {
+			tip.style.left = `${event.clientX + window.pageXOffset + 10}px`;
+			tip.style.top = `${event.clientY + window.pageYOffset + 10}px`;
+			tip.textContent = event.target.textContent;
+			tip.style.display = 'block';
+		}
+	},
+	mouseleave() {
+		tip.style.display = 'none';
+	}
+}
+
+/*** Слушатели ***/
+
+document.querySelectorAll('[data-event*="click"]').forEach(item => item.addEventListener('click', popupEvents));
+document.querySelectorAll('[data-event*="mousedown"]').forEach(item => item.addEventListener('mousedown', onMousedown));
+
+document.querySelectorAll('.popup').forEach(item => {
+	item.onmousedown = event => {if (event.target == event.currentTarget) smoothClose()}
+});
+
+cardGroup.onclick = cardEvents;
+cardGroup.onmousedown = event => {if (event.target.name == 'image-button') imagePopup.style.display = 'flex'};
+
+document.body.addEventListener('submit', formSubmit);
+
+document.querySelectorAll('[data-title]').forEach(item => {
+	item.addEventListener('mousemove', forTips);
+	item.addEventListener('mouseleave', forTips)
+})

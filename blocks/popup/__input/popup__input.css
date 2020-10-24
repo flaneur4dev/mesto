@@ -1,7 +1,7 @@
 .popup__input {
   width: 100%;
-  padding: 14px 0;
-  margin-bottom: 12px;
+  padding: 10px 0;
+  margin-bottom: 8px;
   border: 0;
   border-bottom: 1px solid rgba(0, 0, 0, .2);
   box-sizing: border-box;
@@ -17,4 +17,8 @@
 
 .popup__input:focus {
   outline-color: #3df;
+}
+
+.popup__input:invalid:not(:placeholder-shown) {
+  border-bottom-color: #f00;
 }
