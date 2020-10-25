@@ -45,3 +45,5 @@
 @import url(../blocks/popup/__button/_type/popup__button_type_submit-button.css);
 @import url(../blocks/popup/__button/_type/popup__button_type_close-button.css);
 @import url(../blocks/popup/__button/_type/popup__button_type_image-button.css);
+
+@import url(../blocks/tip/tip.css)

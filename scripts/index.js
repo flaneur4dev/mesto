@@ -25,15 +25,7 @@ const cardGroup = document.querySelector('.elements');
 
 // всплывающие подсказки
 const tip = document.createElement('span');
-tip.style.cssText = `
-  display: none;
-  position: absolute;
-  padding: 5px;
-  color: #fff;
-  background-color: #252525;
-  border-radius: 2px;
-  font-size: 12px;
-`;
+tip.className = 'tip';
 document.body.lastElementChild.before(tip);
 
 /*** Функции ***/
@@ -56,11 +48,15 @@ function exchangeContent(type, ...selectors) {
   }
 }
 
+function cleanupError() {
+  document.querySelectorAll('.popup__input-error').forEach(item => item.textContent = '');
+}
+
 // закрытие
 function smoothClose() {
   let evt = event;
   document.onkeydown = '';
-  document.querySelectorAll('.popup__input-error').forEach(item => item.textContent = '');
+  cleanupError();
 	event.target.closest('.popup').classList.toggle('popup_opened');
 	setTimeout(() => {evt.target.closest('.popup').style.display = 'none'}, 700);
 }
@@ -70,7 +66,7 @@ function escapeClose() {
     const currentPopup = document.querySelector('.popup_opened');
     if (currentPopup) {
       document.onkeydown = '';
-      document.querySelectorAll('.popup__input-error').forEach(item => item.textContent = '');
+      cleanupError();
       currentPopup.classList.toggle('popup_opened');
       setTimeout(() => {currentPopup.style.display = 'none'}, 700);
     }
@@ -80,10 +76,11 @@ function escapeClose() {
 // добавление карточек
 function addCard(name, link) {
   const cardElement = cardTemplate.cloneNode(true);
+  const cardImage = cardElement.querySelector('.element__image');
 
   cardElement.querySelector('.element__title').textContent = name;
-  cardElement.querySelector('.element__image').alt = name;
-  cardElement.querySelector('.element__image').src = link;
+  cardImage.alt = name;
+  cardImage.src = link;
   
   cardGroup.prepend(cardElement)
 }
