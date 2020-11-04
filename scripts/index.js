@@ -1,7 +1,14 @@
-/* ВАЖНО!!! 
-При проверке файла не пользуйтесь практикумным редактором, он "ломает" код и его невозможно читать.
-Пользуйтесь полноценными редакторами кода или смотрите работу на Github. Там все корректно.*/
+/** ВАЖНО!!! 
+ * При проверке файла не пользуйтесь практикумным редактором, он "ломает" код и его невозможно читать.
+ * Пользуйтесь полноценными редакторами кода или смотрите работу на Github. Там все корректно.
+**/ 
 
+import {FormValidator} from './FormValidator.js';
+import {Card} from './Card.js';
+
+FormValidator.formValidate();
+Card.prototype._handleMousemove = handleMousemove;
+Card.prototype._handleMouseleave = handleMouseleave;
 
 /*** Переменные ***/
 
@@ -20,13 +27,14 @@ const createButton = document.querySelector('[name="create-button"]');
 const saveButton = document.querySelector('[name="save-button"]');
 const popupImage = document.querySelector('.popup__image');
 const popupTitle = document.querySelector('.popup__caption');
-const cardTemplate = document.querySelector('#card-template').content;
 const cardGroup = document.querySelector('.elements');
 
 // всплывающие подсказки
 const tip = document.createElement('span');
 tip.className = 'tip';
-document.body.lastElementChild.before(tip);
+document.scripts[0].before(tip);
+
+initialCards.forEach(item => Card.addElement(item.name, item.link, '#card-template', cardGroup));
 
 /*** Функции ***/
 
@@ -48,15 +56,16 @@ function exchangeContent(type, ...selectors) {
   }
 }
 
-function cleanupError() {
-  document.querySelectorAll('.popup__input-error').forEach(item => item.textContent = '');
+function cleanupError(parent) {
+  parent.querySelectorAll('.popup__input-error').forEach(item => item.textContent = '');
+  parent.querySelectorAll('.popup__input').forEach(item => item.setCustomValidity(''));
 }
 
 // закрытие
 function smoothClose() {
   let evt = event;
   document.onkeydown = '';
-  cleanupError();
+  cleanupError(event.target.closest('.popup'));
 	event.target.closest('.popup').classList.toggle('popup_opened');
 	setTimeout(() => {evt.target.closest('.popup').style.display = 'none'}, 700);
 }
@@ -66,26 +75,12 @@ function escapeClose() {
     const currentPopup = document.querySelector('.popup_opened');
     if (currentPopup) {
       document.onkeydown = '';
-      cleanupError();
+      cleanupError(currentPopup);
       currentPopup.classList.toggle('popup_opened');
       setTimeout(() => {currentPopup.style.display = 'none'}, 700);
     }
   }
 }
-
-// добавление карточек
-function addCard(name, link) {
-  const cardElement = cardTemplate.cloneNode(true);
-  const cardImage = cardElement.querySelector('.element__image');
-
-  cardElement.querySelector('.element__title').textContent = name;
-  cardImage.alt = name;
-  cardImage.src = link;
-  
-  cardGroup.prepend(cardElement)
-}
-
-initialCards.forEach(item => addCard(item.name, item.link));
 
 /*** Функции-обработчики ***/
 
@@ -106,6 +101,20 @@ function cardEvents(event) {
       event.target.parentElement.remove();
       break;
   }
+}
+
+// события всплывающих подсказок
+function handleMousemove(event) {
+  if (event.target.scrollWidth > event.target.clientWidth) {
+    tip.style.left = `${event.clientX + window.pageXOffset + 10}px`;
+    tip.style.top = `${event.clientY + window.pageYOffset + 10}px`;
+    tip.textContent = event.target.textContent;
+    tip.style.display = 'block';
+  }
+}
+
+function handleMouseleave() {
+  tip.style.display = 'none';
 }
 
 /*** Объекты-обработчики ***/
@@ -151,26 +160,8 @@ const formSubmit = {
     exchangeContent('text', '.profile__subtitle', '#job');                      
   },
 	'create-button'() {
-    addCard(getValue('add-form', 'place'), getValue('add-form', 'link'))
+    Card.addElement(getValue('add-form', 'place'), getValue('add-form', 'link'), '#card-template', cardGroup)
   }
-}
-
-// обработка всплывающих подсказок
-const forTips = {
-	handleEvent(event) {
-		this[event.type](event);
-	},
-	mousemove() {
-		if (event.target.scrollWidth > event.target.clientWidth) {
-			tip.style.left = `${event.clientX + window.pageXOffset + 10}px`;
-			tip.style.top = `${event.clientY + window.pageYOffset + 10}px`;
-			tip.textContent = event.target.textContent;
-			tip.style.display = 'block';
-		}
-	},
-	mouseleave() {
-		tip.style.display = 'none';
-	}
 }
 
 /*** Слушатели ***/
@@ -188,6 +179,6 @@ cardGroup.onmousedown = event => {if (event.target.name == 'image-button') image
 document.body.addEventListener('submit', formSubmit);
 
 document.querySelectorAll('[data-title]').forEach(item => {
-	item.addEventListener('mousemove', forTips);
-	item.addEventListener('mouseleave', forTips)
+	item.addEventListener('mousemove', handleMousemove);
+	item.addEventListener('mouseleave', handleMouseleave)
 })
