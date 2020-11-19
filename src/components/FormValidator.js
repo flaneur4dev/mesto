@@ -1,5 +1,5 @@
 export class FormValidator {
-  constructor({buttonSelector}, form) {
+  constructor({ buttonSelector }, form) {
     this._form = form;
     this._button = this._form.querySelector(buttonSelector)
   }
@@ -19,7 +19,7 @@ export class FormValidator {
   }
 
   _toggleButtonState() {
-    this._form.checkValidity() ? this._button.disabled = false : this._button.disabled = true
+    this._button.disabled = !this._form.checkValidity()
   }
 
   enableValidation() {
@@ -29,7 +29,7 @@ export class FormValidator {
 		})
   }
 
-  static formValidate() {
-    [...document.forms].forEach(form => new this({buttonSelector: '[type="submit"]'}, form).enableValidation())
+  static all({ buttonSelector }) {
+    [...document.forms].forEach(form => new this({ buttonSelector }, form).enableValidation())
   }
 }

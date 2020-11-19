@@ -1,5 +1,5 @@
 export class Card {
-  constructor(name, link, templateSelector) {
+  constructor({ name, link }, templateSelector) {
     this._name = name;
     this._link = link;
     this._templateSelector = templateSelector
@@ -10,8 +10,8 @@ export class Card {
   }
 
   _setEventListeners() {
-    this._cardTitle.addEventListener('mousemove', event => this._handleMousemove(event));
-    this._cardTitle.addEventListener('mouseleave', () => this._handleMouseleave());
+    this._cardTitle.addEventListener('mousemove', this._handleMousemove);
+    this._cardTitle.addEventListener('mouseleave', this._handleMouseleave);
   }
 
   createCard() {
@@ -26,9 +26,5 @@ export class Card {
     this._setEventListeners();
 
     return this._element;
-  }
-
-  static addElement(name, link, templateSelector, parentNode) {
-    parentNode.prepend(new this(name, link, templateSelector).createCard())
   }
 }

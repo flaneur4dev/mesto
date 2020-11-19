@@ -6,17 +6,16 @@
     <meta name="description" content="Интерактивное приложение для путешествий">
 	  <meta name="keywords" content="Россия, путешествия, Алтай, Байкал, Карелия, Домбай, Эльбрус">
 	  <meta name="author" content="Алексей Басманов">
-    <link rel="stylesheet" href="./pages/index.css">
     <title>Mesto</title>
   </head>
   <body class="page">
     <header class="header page__section">
-      <a href="#"><img src="./images/header/Logo_vector.svg" alt="Логотип" class="header__logo"></a>
+      <a href="#"><img src="<%=require('./images/header/Logo_vector.svg')%>" alt="Логотип" class="header__logo"></a>
     </header>
 
     <main class="page__section">
       <section class="profile">
-        <img src="./images/profile/avatar.jpg" class="profile__image" alt="Аватар">
+        <img src="<%=require('./images/profile/avatar.jpg')%>" class="profile__image" alt="Аватар">
         <div class="profile__wrapper">
           <h1 class="profile__title" data-title>Жак-Ив Кусто</h1>
           <button class="profile__button profile__button_type_edit-button" type="button" name="edit-button" data-event="mousedown-click"></button>
@@ -40,11 +39,11 @@
         <fieldset class="popup__wrapper">
           <input type="text" class="popup__input" id="person" name="person" placeholder="Имя" minlength="2" maxlength="40" pattern="^[^\s]+(\s.*)?$" required>
           <span class="popup__input-error"></span>
-          <input type="text" class="popup__input" id="job" name="description" placeholder="О себе" minlength="2" maxlength="200" pattern="^[^\s]+(\s.*)?$" required>
+          <input type="text" class="popup__input" id="about" name="about" placeholder="О себе" minlength="2" maxlength="200" pattern="^[^\s]+(\s.*)?$" required>
           <span class="popup__input-error"></span>
         </fieldset>
         <button class="popup__button popup__button_type_submit-button" type="submit" name="save-button">Сохранить</button>
-        <button class="popup__button popup__button_type_close-button" type="button" name="close-button" data-event="click"></button>
+        <button class="popup__button popup__button_type_close-button" type="button" name="close-button"></button>
       </form>
     </section>
 
@@ -52,13 +51,13 @@
       <form class="popup__container popup__container_type_add" name="add-form" novalidate>
         <h2 class="popup__title popup__title_type_add">Новое место</h2>
         <fieldset class="popup__wrapper popup__wrapper_type_add">
-          <input type="text" class="popup__input" id="place" name="place" placeholder="Название" minlength="2" maxlength="30" pattern="^[^\s]+(\s.*)?$" required>
+          <input type="text" class="popup__input" id="name" name="name" placeholder="Название" minlength="2" maxlength="30" pattern="^[^\s]+(\s.*)?$" required>
           <span class="popup__input-error"></span>
           <input type="url" class="popup__input" id="link" name="link" placeholder="Ссылка на картинку" pattern="^[^\s]+(\s.*)?$" required>
           <span class="popup__input-error"></span>
         </fieldset>
         <button class="popup__button popup__button_type_submit-button" type="submit" name="create-button">Создать</button>
-        <button class="popup__button popup__button_type_image-button" type="button" name="close-button" data-event="click"></button>
+        <button class="popup__button popup__button_type_image-button" type="button" name="close-button"></button>
       </form>
     </section>
 
@@ -66,7 +65,7 @@
       <figure class="popup__container popup__container_type_image">
         <img src="" alt="" class="popup__image">
         <figcaption class="popup__caption"></figcaption>
-        <button class="popup__button popup__button_type_image-button" type="button" name="close-button" data-event="click"></button>
+        <button class="popup__button popup__button_type_image-button" type="button" name="close-button"></button>
       </figure>
     </section>
 
@@ -81,6 +80,5 @@
       </article>
     </template>
 
-    <script type="module" src="./scripts/index.js"></script>
   </body>
 </html>
