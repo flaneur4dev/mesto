@@ -28,8 +28,4 @@ export class FormValidator {
 			this._toggleButtonState();
 		})
   }
-
-  static all({ buttonSelector }) {
-    [...document.forms].forEach(form => new this({ buttonSelector }, form).enableValidation())
-  }
 }

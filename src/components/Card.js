@@ -1,3 +1,8 @@
+/**
+ * Так как используется прием "делегирование событий" функция handleCardClick()
+ * стала статическим методом класса.
+*/
+
 export class Card {
   constructor({ name, link }, templateSelector) {
     this._name = name;
@@ -27,4 +32,26 @@ export class Card {
 
     return this._element;
   }
+
+  static handleCardClicks(imagePopup) {
+		return function(event) {
+			switch(event.target.name) {
+				case 'image-button':
+					imagePopup.open();
+					break;
+				case 'like-button':
+					event.target.classList.toggle('element__button_type_black-like');
+					break;
+				case 'trash-button':
+					event.target.parentElement.remove();
+					break;
+			}
+		}
+	}
+	
+	static handleCardMousedown(imagePopup) {
+		return function(event) {
+			if (event.target.name === 'image-button') imagePopup.popup.style.display = 'flex'
+		}
+	}
 }

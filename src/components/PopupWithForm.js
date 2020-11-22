@@ -15,13 +15,17 @@ export class PopupWithForm extends Popup {
     }, {})
   }
 
+  /**
+   * Если у объекта есть get-функция для получения значений, хорошо бы иметь также set-функцию
+   * для установки этих значений (очень часто объекты обладают этими двумя сущностями).
+   * Поэтому оставил данный метод, но сделал его универсальным.
+  */
   setInputValues(data) {
-    this._formInputs[0].value = data ? data.person : '';
-    this._formInputs[1].value = data ? data.about : '';
+    this._formInputs.forEach(input => input.value = data ? data[input.id] : '')
   }
 
   close() {
-    this._formInputs.forEach(item => item.setCustomValidity(''));
+    this._formInputs.forEach(input => input.setCustomValidity(''));
     this._inputsErrors.forEach(item => item.textContent = '');
 
     super.close()
