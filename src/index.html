@@ -9,17 +9,20 @@
     <title>Mesto</title>
   </head>
   <body class="page">
+    <!-- <div class="spiner"></div> -->
     <header class="header page__section">
       <a href="#"><img src="<%=require('./images/header/Logo_vector.svg')%>" alt="Логотип" class="header__logo"></a>
     </header>
 
     <main class="page__section">
       <section class="profile">
-        <img src="<%=require('./images/profile/avatar.jpg')%>" class="profile__image" alt="Аватар">
+        <div class="profile__container">
+          <img src="" class="profile__image" name="avatar-button" data-event="mousedown-click" alt="Аватар">
+        </div>
         <div class="profile__wrapper">
-          <h1 class="profile__title" data-title>Жак-Ив Кусто</h1>
+          <h1 class="profile__title" data-title></h1>
           <button class="profile__button profile__button_type_edit-button" type="button" name="edit-button" data-event="mousedown-click"></button>
-          <p class="profile__subtitle" data-title>Исследователь океана</p>
+          <p class="profile__subtitle" data-title></p>
         </div>
         <button class="profile__button profile__button_type_add-button" type="button" name="add-button" data-event="mousedown-click"></button>
       </section>
@@ -37,7 +40,7 @@
       <form class="popup__container" name="edit-form" novalidate>
         <h2 class="popup__title">Редактировать профиль</h2>
         <fieldset class="popup__wrapper">
-          <input type="text" class="popup__input" id="person" name="person" placeholder="Имя" minlength="2" maxlength="40" pattern="^[^\s]+(\s.*)?$" required>
+          <input type="text" class="popup__input" id="person" name="name" placeholder="Имя" minlength="2" maxlength="40" pattern="^[^\s]+(\s.*)?$" required>
           <span class="popup__input-error"></span>
           <input type="text" class="popup__input" id="about" name="about" placeholder="О себе" minlength="2" maxlength="200" pattern="^[^\s]+(\s.*)?$" required>
           <span class="popup__input-error"></span>
@@ -56,7 +59,7 @@
           <input type="url" class="popup__input" id="link" name="link" placeholder="Ссылка на картинку" pattern="^[^\s]+(\s.*)?$" required>
           <span class="popup__input-error"></span>
         </fieldset>
-        <button class="popup__button popup__button_type_submit-button" type="submit" name="create-button">Создать</button>
+        <button class="popup__button popup__button_type_submit-button" type="submit" name="create-button">Добавить</button>
         <button class="popup__button popup__button_type_image-button" type="button" name="close-button"></button>
       </form>
     </section>
@@ -69,12 +72,35 @@
       </figure>
     </section>
 
+    <section id="avatar-popup" class="popup">
+      <form class="popup__container popup__container_type_add" name="avatar-form" novalidate>
+        <h2 class="popup__title popup__title_type_add">Обновить аватар</h2>
+        <fieldset class="popup__wrapper popup__wrapper_type_add">
+          <input type="url" class="popup__input" id="avatar-link" name="avatar" placeholder="Ссылка на аватар" pattern="^[^\s]+(\s.*)?$" required>
+          <span class="popup__input-error"></span>
+        </fieldset>
+        <button class="popup__button popup__button_type_submit-button" type="submit" name="save-avatar-button">Сохранить</button>
+        <button class="popup__button popup__button_type_close-button" type="button" name="close-button"></button>
+      </form>
+    </section>
+
+    <section id="confirm-popup" class="popup">
+      <form class="popup__container popup__container_type_add" name="confirm-form" novalidate>
+        <h2 class="popup__title popup__title_type_add">Вы уверены?</h2>
+        <button class="popup__button popup__button_type_submit-button" type="submit" name="confirm-button">Да</button>
+        <button class="popup__button popup__button_type_close-button" type="button" name="close-button"></button>
+      </form>
+    </section>
+
     <template id="card-template">
       <article class="element">
         <img src="" alt="" class="element__image" name="image-button">
         <div class="element__wrapper">
           <h2 class="element__title"></h2>
-          <button class="element__button element__button_type_like-button" type="button" name="like-button"></button>
+          <div>
+            <button class="element__button element__button_type_like-button" type="button" name="like-button"></button>
+            <span class="element__likes"></span>
+          </div>
         </div>
         <button class="element__button element__button_type_trash-button" type="button" name="trash-button"></button>
       </article>

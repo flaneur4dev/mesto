@@ -10,18 +10,13 @@ export class PopupWithForm extends Popup {
 
   _getInputValues() {
     return [...this._formInputs].reduce((result, input) => {
-      result[input.id] = input.value;
+      result[input.name] = input.value;
       return result
     }, {})
   }
 
-  /**
-   * Если у объекта есть get-функция для получения значений, хорошо бы иметь также set-функцию
-   * для установки этих значений (очень часто объекты обладают этими двумя сущностями).
-   * Поэтому оставил данный метод, но сделал его универсальным.
-  */
   setInputValues(data) {
-    this._formInputs.forEach(input => input.value = data ? data[input.id] : '')
+    this._formInputs.forEach(input => input.value = data ? data[input.name] : '')
   }
 
   close() {
@@ -37,7 +32,6 @@ export class PopupWithForm extends Popup {
     this.popup.addEventListener('submit', event => {
       event.preventDefault();
       this._handleSubmit(this._getInputValues());
-      this.close()
     }) 
   }
 }

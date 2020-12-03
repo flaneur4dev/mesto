@@ -1,52 +1,30 @@
-export const appConfig = {
+export const app = {
 	selectors: {
-		cardTemplate: '#card-template',
-		editPopup: '#edit-popup',
 		addPopup: '#add-popup',
+		editPopup: '#edit-popup',
 		imagePopup: '#image-popup',
+		avatarPopup: '#avatar-popup',
+		confirmPopup: '#confirm-popup',
+		cardTemplate: '#card-template',
 		containerSelector: '.elements'
 	},
 	forms: {
 		addForm: document.forms['add-form'],
-		editForm: document.forms['edit-form']
+		editForm: document.forms['edit-form'],
+		avatarForm: document.forms['avatar-form']
 	},
 	buttons: {
 		saveButton: document.querySelector('[name="save-button"]'),
-		createButton: document.querySelector('[name="create-button"]')
+		createButton: document.querySelector('[name="create-button"]'),
+		confirmButton: document.querySelector('[name="confirm-button"]'),
+		saveAvatarButton: document.querySelector('[name="save-avatar-button"]'),
 	},
-	data: {
-		initialCards: [
-			{
-				name: 'Архыз',
-				link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-			},
-			{
-				name: 'Челябинская область',
-				link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-			},
-			{
-				name: 'Камчатка',
-				link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-			},
-			{
-				name: 'Иваново',
-				link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-			},
-			{
-				name: 'Холмогорский район',
-				link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-			},
-			{
-				name: 'Байкал',
-				link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-			}
-		],
-		validation: {
-			buttonSelector: '[type="submit"]'
-		},
-		userInfo: {
-			nameSelector: '.profile__title',
-			aboutSelector: '.profile__subtitle'
-		}
+	validation: {
+		buttonSelector: '[type="submit"]'
+	},
+	userInfo: {
+		nameSelector: '.profile__title',
+		aboutSelector: '.profile__subtitle',
+		avatarSelector: '.profile__image'
 	}
 }
