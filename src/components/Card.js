@@ -1,12 +1,23 @@
 export class Card {
-  constructor({ name, link, likes, owner, _id }, templateSelector) {
-    this._name = name;
-    this._link = link;
-    this._likes = likes;
-    this._isLiked = false;
-    this._cardId = _id;
-    this._cardOwnerId = owner._id;
-    this._templateSelector = templateSelector;
+  constructor(
+    { name, link, likes, owner, _id },
+    templateSelector,
+    handleLikeClick,
+    handleTrashClick,
+    handleMousemove,
+    handleMouseleave) {
+      this._name = name;
+      this._link = link;
+      this._likes = likes;
+      this._isLiked = false;
+      this._cardId = _id;
+      this._cardOwnerId = owner._id;
+      this._templateSelector = templateSelector;
+
+      this._handleLikeClick = handleLikeClick;
+      this._handleTrashClick = handleTrashClick;
+      this._handleMousemove = handleMousemove;
+      this._handleMouseleave = handleMouseleave
   }
 
   _getTemplate() {
@@ -60,8 +71,8 @@ export class Card {
 	
 	static handleCardMousedown(imagePopup, confirmPopup) {
 		return function(event) {
-			if (event.target.name === 'image-button') imagePopup.popup.style.display = 'flex'
-			if (event.target.name === 'trash-button') confirmPopup.popup.style.display = 'flex'
+			if (event.target.name === 'image-button') imagePopup.preOpen()
+			if (event.target.name === 'trash-button') confirmPopup.preOpen()
 		}
 	}
 }

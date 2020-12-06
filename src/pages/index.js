@@ -18,11 +18,25 @@ const api = new Api(
   }
 )
 
+const addFormValidation = new FormValidator(app.validation, app.forms.addForm);
+const editFormValidation = new FormValidator(app.validation, app.forms.editForm);
+const avatarFormValidation = new FormValidator(app.validation, app.forms.avatarForm);
+
 const userInfo = new UserInfo(app.userInfo);
 
 const cardList = new Section(
   app.selectors.containerSelector,
-  item => cardList.addItem(new Card(item, app.selectors.cardTemplate).createCard(userInfo._userId))
+  item => {
+    cardList.addItem(
+      new Card(
+        item,
+        app.selectors.cardTemplate,
+        handleLikeClick,
+        handleTrashClick,
+        handleMousemove,
+        handleMouseleave
+        ).createCard(userInfo.userId))
+  }
 );
 
 const addPopup = new PopupWithForm(
@@ -30,14 +44,26 @@ const addPopup = new PopupWithForm(
   newCard => {
     app.buttons.createButton.innerHTML = 'Добавление <span class ="dot">.</span>';
 
-    api.request('cards', 'POST', newCard)
-      .then(data => cardList.addItem(new Card(data, app.selectors.cardTemplate).createCard(userInfo._userId)))
+    api.addCard(newCard)
+      .then(data => {
+        cardList.addItem(
+          new Card(
+            data,
+            app.selectors.cardTemplate,
+            handleLikeClick,
+            handleTrashClick,
+            handleMousemove,
+            handleMouseleave
+            ).createCard(userInfo.userId))
+      })
       .catch(err => alert(err))
       .finally(() => {
         app.buttons.createButton.innerHTML = 'Добавить';
         addPopup.close()
       })
-  }
+  },
+  addFormValidation.clearInput,
+  addFormValidation.clearError
 );
 
 const editPopup = new PopupWithForm(
@@ -45,14 +71,16 @@ const editPopup = new PopupWithForm(
   newData => {
     app.buttons.saveButton.innerHTML = 'Сохранение <span class ="dot">.</span>';
 
-    api.request('users/me', 'PATCH', newData)
+    api.updateUserData(newData)
       .then(data => userInfo.setUserInfo(data))
       .catch(err => alert(err))
       .finally(() => {
         app.buttons.saveButton.innerHTML = 'Сохранить';
         editPopup.close()
       })
-  }
+  },
+  editFormValidation.clearInput,
+  editFormValidation.clearError
 );
 
 const avatarPopup = new PopupWithForm(
@@ -60,14 +88,16 @@ const avatarPopup = new PopupWithForm(
   newAvatar => {
     app.buttons.saveAvatarButton.innerHTML = 'Сохранение <span class ="dot">.</span>';
 
-    api.request('users/me/avatar', 'PATCH', newAvatar)
+    api.updateAvatar(newAvatar)
       .then(data => userInfo.setUserAvatar(data))
       .catch(err => alert(err))
       .finally(() => {
         app.buttons.saveAvatarButton.innerHTML = 'Сохранить';
         avatarPopup.close()
       })
-  }
+  },
+  avatarFormValidation.clearInput,
+  avatarFormValidation.clearError
 );
 
 const confirmPopup = new PopupWithForm(
@@ -75,7 +105,7 @@ const confirmPopup = new PopupWithForm(
   () => {
     app.buttons.confirmButton.innerHTML = 'Удаление <span class ="dot">.</span>';
 
-    api.request(`cards/${app.cardId}`, 'DELETE')
+    api.deleteCard(app.cardId)
       .then(() => app.cardElement.remove())
       .catch(err => alert(err))
       .finally(() => {
@@ -87,9 +117,7 @@ const confirmPopup = new PopupWithForm(
 
 const imagePopup = new PopupWithImage(app.selectors.imagePopup);
 
-const addFormValidation = new FormValidator(app.validation, app.forms.addForm);
-const editFormValidation = new FormValidator(app.validation, app.forms.editForm);
-const avatarFormValidation = new FormValidator(app.validation, app.forms.avatarForm);
+
 
 // всплывающие подсказки (для длинного текста)
 const tip = document.createElement('span');
@@ -110,6 +138,27 @@ function handleMousemove(event) {
 
 function handleMouseleave() {
   tip.style.display = 'none';
+}
+
+// обработчики для карточек
+function handleLikeClick(cardId, isLiked) {
+  if (isLiked) {
+    api.deleteLike(cardId)
+      .then(data => {
+        if (data.likes.some(item => item._id !== userInfo.userId) || !data.likes.length) this._changeLike(data.likes.length)
+      }).catch(err => alert(err))
+  } else {
+    api.addLike(cardId)
+      .then(data => {
+        if (data.likes.some(item => item._id === userInfo.userId)) this._changeLike(data.likes.length)
+      }).catch(err => alert(err))
+  }
+}
+
+function handleTrashClick(cardid, element) {
+  app.cardId = cardid;
+  app.cardElement = element;
+  confirmPopup.open()
 }
 
 /*** Объекты-обработчики ***/
@@ -141,50 +190,25 @@ const onMousedown = {
     this[event.target.name](event);
   },
   'add-button'() {
-    addPopup.popup.style.display = 'flex'
+    addPopup.preOpen()
   },
   'edit-button'() {
-    editPopup.popup.style.display = 'flex'
+    editPopup.preOpen()
   },
   'avatar-button'() {
-    avatarPopup.popup.style.display = 'flex'
+    avatarPopup.preOpen()
   }
 }
 
-// обработчики для карточек
-Card.prototype._handleMousemove = handleMousemove;
-Card.prototype._handleMouseleave = handleMouseleave;
-
-Card.prototype._handleLikeClick = function(cardId, isLiked) {
-  if (isLiked) {
-    api.request(`cards/likes/${cardId}`, 'DELETE')
-      .then(data => {
-        if (data.likes.some(item => item._id !== userInfo._userId) || !data.likes.length) this._changeLike(data.likes.length)
-      }).catch(err => alert(err))
-  } else {
-    api.request(`cards/likes/${cardId}`, 'PUT')
-      .then(data => {
-        if (data.likes.some(item => item._id === userInfo._userId)) this._changeLike(data.likes.length)
-      }).catch(err => alert(err))
-  }
-}
-
-Card.prototype._handleTrashClick = function(cardid, element) {
-  app.cardId = cardid;
-  app.cardElement = element;
-  confirmPopup.open()
-}
-
-api.request('users/me')
-  .then(data => {
+// начальная загрузка
+Promise.all([
+  api.getUserData(),
+  api.getInitialCards()
+]).then(([ data, cards ]) => {
     userInfo.setUserInfo(data);
-    userInfo.setUserAvatar(data)
-  })
-  .catch(err => alert(err));
-
-api.request('cards')
-  .then(cards => cardList.renderItems(cards))
-  .catch(err => alert(err));
+    userInfo.setUserAvatar(data);
+    cardList.renderItems(cards)
+}).catch(err => alert(err));
 
 addFormValidation.enableValidation();
 editFormValidation.enableValidation();
