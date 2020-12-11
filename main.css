@@ -2,6 +2,7 @@
 @font-face{font-family:Inter;font-weight:400;font-style:normal;src:url(26a30a5f1103393aac70.woff2) format("woff2"),url(e148c4a1158f8cee8285.woff) format("woff")}@font-face{font-family:Inter;font-weight:500;font-style:normal;src:url(d0a58d956cf2f4cf078f.woff2) format("woff2"),url(eec0ea57721daa33c7a2.woff) format("woff")}@font-face{font-family:Inter;font-weight:900;font-style:normal;src:url(768169b1912340d378ac.woff2) format("woff2"),url(7bb6234314ccc72c942a.woff) format("woff")}
 .page{color:#fff;background-color:#000;font-family:Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;-moz-text-size-adjust:100%;text-rendering:optimizeLegibility}
 .page__section{width:88%;max-width:882px;margin:0 auto}
+.page__loader{display:flex;justify-content:center;align-items:center;position:fixed;top:0;right:0;bottom:0;left:0;background-color:#000;z-index:10;font-size:100px;font-weight:500}
 .header{padding:45px 0 40px;border-bottom:1px solid #545454;box-sizing:border-box}@media screen and (max-width:470px){.header{width:100%;padding:28px 27px 30px}}
 .header__logo{width:142px;transition:.3s}@media screen and (max-width:470px){.header__logo{width:104px}}@media screen and (min-width:768px){.header__logo:hover{opacity:.8}}
 .profile{padding:40px 0 50px;display:flex;align-items:center}@media screen and (max-width:720px){.profile{padding:42px 0 36px;flex-direction:column}}
@@ -44,4 +45,5 @@
 .popup__button_type_image-button{width:40px;height:40px;position:absolute;top:-38px;right:-38px;background-image:url(8e755615a0065b85c20e.svg);transform:rotate(45deg)}@media screen and (max-width:520px){.popup__button_type_image-button{width:30px;height:30px;top:-27px;right:-27px;background-size:contain}}
 .tip{display:none;position:absolute;padding:5px;color:#fff;background-color:#252525;border-radius:2px;font-size:12px}
 .dot{margin-left:7px;position:relative;-webkit-animation:pulse .7s ease-in-out .4s infinite alternate;animation:pulse .7s ease-in-out .4s infinite alternate}.dot:before{right:10px;-webkit-animation:pulse .7s ease-in-out infinite alternate;animation:pulse .7s ease-in-out infinite alternate}.dot:after,.dot:before{content:".";position:absolute}.dot:after{right:5px;-webkit-animation:pulse .7s ease-in-out .3s infinite alternate;animation:pulse .7s ease-in-out .3s infinite alternate}@-webkit-keyframes pulse{0%{opacity:0}to{opacity:1}}@keyframes pulse{0%{opacity:0}to{opacity:1}}
+.dot_loader{margin-left:40px}.dot_loader:before{right:40px}.dot_loader:after{right:20px}
 
