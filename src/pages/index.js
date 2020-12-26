@@ -208,7 +208,8 @@ Promise.all([
     userInfo.setUserInfo(data);
     userInfo.setUserAvatar(data);
     cardList.renderItems(cards)
-}).catch(err => alert(err));
+}).catch(err => alert(err))
+  .finally(() => document.body.firstElementChild.remove());
 
 addFormValidation.enableValidation();
 editFormValidation.enableValidation();

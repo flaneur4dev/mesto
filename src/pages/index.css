@@ -2,6 +2,7 @@
 @import url(../vendor/fonts.css);
 @import url(../blocks/page/page.css);
 @import url(../blocks/page/__section/page__section.css);
+@import url(../blocks/page/__loader/page__loader.css);
 
 @import url(../blocks/header/header.css);
 @import url(../blocks/header/__logo/header__logo.css);
@@ -50,5 +51,4 @@
 
 @import url(../blocks/tip/tip.css);
 @import url(../blocks/dot/dot.css);
-
-/* @import url(../blocks/spiner/spiner.css) */
+@import url(../blocks/dot/_loader/dot_loader.css);
