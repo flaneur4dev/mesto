@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/flaneur4dev/mesto#readme",
   "devDependencies": {
-    "@babel/core": "^7.12.3",
+    "@babel/core": "^7.29.6",
     "@babel/preset-env": "^7.12.1",
     "autoprefixer": "^10.0.2",
     "babel-loader": "^8.2.1",
